@@ -1,0 +1,60 @@
+#General parameters
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python
+@BIN              = /project/umw_biocore/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@CPU              = 8
+@GENOMEDB         = /share/data/umw_biocore/genome_data/@GENOME/@VERSION
+@JOB              = "@PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR -p @CPU"
+#StepFastQC
+@RUNFASTQC        = @TOOLSDIR/RNASeq/stepFastQC.pl
+
+#StepRibo
+@RUNRIBO          = @TOOLSDIR/RNASeq/stepRibo.pl
+@RIBOINDEX        = @GENOMEDB/ribosomal_RNA #Required
+@BOWTIE2CMD       = @BIN/bowtie2-2.1.0/bowtie2
+
+#StepTophat2
+@RUNTOPHAT2       = @TOOLSDIR/RNASeq/stepTophat2.pl
+@BOWTIE2INDEX     = @GENOMEDB/@VERSION
+@GTF              = @GENOMEDB/ucsc.gtf#Required
+@TOPHAT2CMD       = "@BIN/tophat-2.0.8.Linux_x86_64/tophat2"
+
+#StepMerge
+@RUNSTEPMERGE     = @TOOLSDIR/RNASeq/stepMerge.pl 
+
+#StepIGVTDF
+@RUNIGVTDF        = @TOOLSDIR/RNASeq/stepIGVTDF.pl
+@GENOMEFASTA      = @GENOMEDB/@VERSION.fa #Required
+@SAMTOOLS         = @BIN/samtools 
+
+#Step Convert BW
+@GENOMESIZE       = @GENOMEDB/@VERSION.chrom.sizes
+@RUNBAM2BW        = @TOOLSDIR/RNASeq/stepBAM2BW.pl
+@RUNCOVERAGE      = @BIN/bedtools/bin/genomeCoverageBed 
+@WIGTOBIGWIG      = @BIN/wigToBigWig
+
+#StepCufflinks
+@RUNCUFFLINKS     = @TOOLSDIR/RNASeq/stepCufflinks.pl
+@CUFFLINKSCMD     = @BIN/cufflinks-2.1.1.Linux_x86_64/cufflinks
+
+#StepCufflinksCount
+@RUN_CUFFLINKSCOUNT = @TOOLSDIR/RNASeq/stepCufflinksCount.pl
+@UCSCCONV         = @GENOMEDB/ucsc_into_genesymbol  #Required
+
+#StepCuffdiff
+@RUNCUFFDIFF      = @TOOLSDIR/RNASeq/stepCuffdiff.pl
+@CUFFDIFFCMD      = @BIN/cufflinks-2.1.1.Linux_x86_64/cuffdiff
+@CUFFCMP          = @GENOMEDB/cuffcmp.combined.gtf  #Required
+
+#StepCuffdiffCount
+@RUN_CUFFDIFFCOUNT = @TOOLSDIR/RNASeq/stepCuffdiffCount.pl
+@UCSCCONV         = @GENOMEDB/ucsc_into_genesymbol  #Required
+
+#StepPicard
+@RUNPICARD        = @TOOLSDIR/RNASeq/stepPicard.pl
+@PICARDCMD        = "@BIN/jre1.7.0_10/bin/java -Xmx1500m  -jar @BIN/tophap_cuffdiff/CollectRnaSeqMetrics.jar STRAND_SPECIFICITY=NONE MINIMUM_LENGTH=0 ASSUME_SORTED=false"
+@REFFLAT          = @GENOMEDB/ref_flat #Required
+
+
+

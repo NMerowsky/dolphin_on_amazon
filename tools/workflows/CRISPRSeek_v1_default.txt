@@ -1,0 +1,21 @@
+#General parameters
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python 
+@JAVA             = module load java/1.7.0_25; java
+@BIN              = /project/umw_biocore/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@CRISPRSEEK       = @TOOLSDIR/CRISPRSeek
+@GDB              = /share/data/umw_biocore/genome_data/@GENOME/@VERSION
+@GCOMMONDB        = @GDB/commondb
+@JOB              = @PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR
+@JGEN             = "@JOB -p 1 -m 16096 -t 230 -q short"
+
+
+#StepCrisprSeek
+@RUNCRISPRSEEK    = module load R/3.1.0;module load R/DEV_MOD/3.1.0/CRISPRseek/1.5.5;@PYTHON @CRISPRSEEK/offtargetanalysis.py 
+@JCRISPRSEEK      = "@JOB -p 1 -m 4096 -t 230 -q short"
+
+#StepPackResults
+
+@RUNPACKRESULTS  = @CRISPRSEEK/packResults.bash
+

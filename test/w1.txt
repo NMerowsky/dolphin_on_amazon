@@ -1,0 +1,4 @@
+step1	sleep 1	1
+step2	ls -l	1
+step3	echo1 "Success Alper"	1
+step4	ls	1

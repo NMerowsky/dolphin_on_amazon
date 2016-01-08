@@ -1,0 +1,5 @@
+seq1	dolphin	rRNA	1	121	.	+	.	ID="5S";
+seq2	dolphin	rRNA	1	157	.	+	.	ID="5.8S";
+seq3	dolphin	rRNA	1	1870	.	+	.	ID="18S";
+seq4	dolphin	rRNA	1	4730	.	+	.	ID="28S";
+seq4	dolphin	rRNA	1	13400	.	+	.	ID="45S";

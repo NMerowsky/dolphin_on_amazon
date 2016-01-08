@@ -1,0 +1,10 @@
+
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python
+@BIN              = /project/umw_biocore/bin
+@JOB              = @PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR
+@JBAM2X           = "@JOB -p 4 -m 4096 -t 1000"
+
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@BAM2XWRAPPER     = @TOOLSDIR/bam2x/stepBam2x.pl
+

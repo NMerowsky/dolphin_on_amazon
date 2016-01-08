@@ -1,0 +1,39 @@
+#General
+@PYTHON           = /share/bin/python
+@PERL             = /share/bin/perl
+@BIN              = /isilon_temp/garber/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@GENOMEDB         = /isilon_temp/garber/genome_data/@GENOME/@VERSION
+@JOB              = "@PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR"
+
+#For running fastQC and spliting the fastq file 
+#stepFASTQC
+@RUNFASTQC   = @TOOLSDIR/prep/runFastQC.bash
+
+#stepSplit Fastq
+@NUMBER      = 2000
+@SPLITFASTQ  = @PERL @TOOLSDIR/prep/splitFastq.pl
+
+#stepMapping
+#@MAPPINGTYPE   = bwa
+@MAPPINGTYPE   = bowtie
+@RUNMAPPING    = @TOOLSDIR/align/runMapping.bash
+#@MAPPINGPARAMS = "-n 2 /isilon_temp/garber/genome_data/@GENOME/@VERSION/@VERSION.fa"
+@GENINDEX      = @GENOMEDB/@VERSION
+@MAPPINGPARAMS = "-p 8 -v 0 -a --strata --best -m 1 --sam -q" 
+@INPUTFASTQDIR = @OUTDIR/files
+@MAPPINGOUTDIR = @OUTDIR/mappings
+@STEPMAPPARAM  = @MAPPINGTYPE @MAPPINGPARAMS @INPUTFASTQDIR @MAPPINGOUTDIR @GENINDEX
+
+#Step Merge Mapping
+@FILE_EXT         = sorted.bam
+@RUNMERGEMAPPING  = @TOOLSDIR/align/mergeMapping.bash
+
+#StepIGVTDF
+@RUNIGVTDF        = @TOOLSDIR/convert/stepIGVTDF.pl
+@GENOMEFASTA      = @GENOMEDB/@VERSION.fa
+@SAMTOOLS         = @BIN/samtools
+
+#Step Convert BW
+@GENOMESIZE       = @GENOMEDB/@VERSION.chrom.sizes
+@RUNBAM2BW        = @TOOLSDIR/convert/bam2wig.bash

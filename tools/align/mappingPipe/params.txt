@@ -1,0 +1,179 @@
+Bowtie        = /isilon_temp/garber/bin/bowtie
+Html          = 1
+
+
+####### Bowtie parameters Start ###########################
+# The rest of the reads from each step will be used the next step
+#Step1
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = filter
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = Adapters (Upto two errors)
+IncludeIt     = NO
+
+#Step2
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = 5S
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = 5S rRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step3
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = 5.8S
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = 5.8S rRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step4
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = 18S
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = 18S rRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step5
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = 28S
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = 28S rRNA (Upto two errors)
+IncludeIt     = NO
+
+
+#Step6
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = 45S
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = 45S rRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step7
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = tRNA
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = tRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step8
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = snRNA
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = snRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step9
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = scRNA
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = scRNA (Upto two errors)
+IncludeIt     = NO
+
+#Step10
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = iALU
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = Intronic ALU (Upto two Errors)
+IncludeIt     = NO
+
+#Step11
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = eALU
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = Exonic ALU (Upto two errors)
+IncludeIt     = NO
+
+#Step12
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = LINE
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = LINE (Upto two errors)
+IncludeIt     = NO
+
+
+#Step13
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = LTR
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = LTR (Upto two errors)
+IncludeIt     = NO
+
+#Step14
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = MER
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = MER (Upto two errors)
+IncludeIt     = NO
+
+#Step15
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = SAT
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = SAT (Upto two errors)
+IncludeIt     = NO
+
+#Step16
+Method        = Bowtie
+Genome        = mature
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8 -v 2 -l 20  -M 1 -a --strata --best
+StepExplan    = Mature (Up to two errors)
+IncludeIt     = NO
+
+#Step17
+Method        = Bowtie
+GenomeDir     = /isilon_temp/garber/genome_data/human/seqs
+Genome        = hairpin
+Mate          = NO
+SpliceSites   = NO
+Param         = -p 8  -n 2 -l 20 -M 1 -a --strata --best
+StepExplan    = Hairpin (Up to two errors)
+IncludeIt     = NO
+
+

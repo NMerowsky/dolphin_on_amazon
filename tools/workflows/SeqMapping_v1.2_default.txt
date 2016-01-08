@@ -1,0 +1,106 @@
+#General parameters
+@PERL             = perl
+@PYTHON           = python 
+@JAVA             = java
+@DOLPHIN          = /opt/sw/Galaxy/dolphin
+@BIN              = @DOLPHIN/bin/
+@SAMTOOLS         = @BIN/samtools
+@TOOLSDIR         = @DOLPHIN/tools
+@SEQMAPPING       = @TOOLSDIR/SeqMappingv1.2
+@GDB              = @DOLPHIN/genome_data/@GENOME/@VERSION
+@GCOMMONDB        = @GDB/commondb
+@JOB              = "@PYTHON @DOLPHIN/submitJobs.py -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR"
+
+
+#STEPCHECK INPUT FILES
+@RUNCHECK         = @PERL @SEQMAPPING/stepCheck.pl
+
+#StepMapping
+@DEFBOWTIE2PARAM  = "-p 2 -N 1"
+@DEFDESCRIPTION   = "multiple mappers upto 1 mismatch"
+@RUNRECMAPPING    = @PERL @SEQMAPPING/stepMapping.pl
+@AWKDIR           = @SEQMAPPING
+@BOWTIE2CMD       = @BIN/bowtie2
+
+#StepBarcode Separation
+@RUNBARCODE         = @PERL @SEQMAPPING/stepBarcode.pl
+@PAIREDBSPLITTERCMD = "@JAVA -jar @BIN/fqsplitter.jar"
+@FASTX              = @BIN/fastx_toolkit_0.0.13
+@SINGLEBSPLITTERCMD = "@PERL @FASTX/fastx_barcode_splitter.pl"
+
+#StepAdapter Remover
+@RUNADAPTER         = @PERL @SEQMAPPING/stepAdapter.pl
+@MATICCMD           = "@JAVA -jar @BIN/trimmomatic-0.32.jar"
+
+#Step Quality Filtering
+@RUNQUALITY         = @PERL @SEQMAPPING/stepQuality.pl
+
+#StepTrim 
+@RUNTRIM            = @PERL @SEQMAPPING/stepTrimmer.pl
+@TRIMMERCMD         = @FASTX/fastx_trimmer
+
+#StepCounts
+@RUNCOUNTS          = @PERL @SEQMAPPING/stepCounts.pl
+@MAKEBED            = "@PERL @SEQMAPPING/makeBed.pl"
+@BEDTOOLSCMD        = "@BIN/bedtools/bin/bedtools multicov"
+
+#StepDESeq2
+@RUNDESEQ2          =  @PERL @SEQMAPPING/stepDESeq2.pl
+@RSCRIPT            = "Rscript --no-save --no-restore --verbose"
+
+#StepMakeReport 
+@RUNMAKEREPORT      = @PERL @SEQMAPPING/stepMakeReport.pl
+
+#StepFastQC
+@RUNFASTQC          = @SEQMAPPING/stepFastQC.pl
+@FASTQCPROG         = "@BIN/FastQC/fastqc" 
+@RUNFASTQCMERGE     = @SEQMAPPING/stepAfterFastQC.pl
+
+#StepRSEM
+@RUNRSEM            = @PERL @SEQMAPPING/stepRSEM.pl
+@RSEMCMD            = "@PERL @BIN/rsem-1.2.19/rsem-calculate-expression"
+@BOWTIEPATH         = @BIN/bowtie
+@RSEMREF            = @GDB/rsem_ref
+
+#StepRSEMCount
+@RUNRSEMCOUNT       = @PERL @SEQMAPPING/stepRSEMcount.pl
+
+#StepTophat2
+@RUNTOPHAT2         = @SEQMAPPING/stepTophat2.pl
+@BOWTIE2INDEX       = @GDB/@VERSION
+@GTF                = @GDB/ucsc.gtf#Required
+@TOPHAT2CMD         = "@BIN/tophat-2.0.13/tophat2"
+
+#stepSplit Fastq
+@RUNSPLIT           = @SEQMAPPING/stepSplit.pl
+
+#stepMergeChip
+@RUNMERGECHIP       = @SEQMAPPING/stepMergeChip.pl
+
+#Step MACS
+@RUNMACS            = @PERL @SEQMAPPING/stepMACS.pl
+@MACSCMD            = "@BIN/macs2/bin/macs2 --tsize=@TSIZE --bw=@BWIDTH -g @GSIZE"
+
+#StepIGVTDF
+@RUNIGVTDF          = @PERL @SEQMAPPING/stepIGVTDF.pl
+@GENOMEFASTA        = @GDB/@VERSION.fa #Required
+@IGVTOOLS           = @BIN/igvtools.sh
+
+#Step Convert BW
+@GENOMESIZE         = @GDB/@VERSION.chrom.sizes
+@RUNBAM2BW          = @PERL @SEQMAPPING/stepBAM2BW.pl
+@RUNCOVERAGE        = "@BIN/bedtools/genomeCoverageBed" 
+@WIGTOBIGWIG        = @BIN/wigToBigWig
+ 
+#RunAggregation
+@RUNAGGREGATION   = @PERL @SEQMAPPING/stepAGG.pl
+@REFACT           = @GDB/refACT.tab
+@BTOOLSGENCOV     = @RUNCOVERAGE
+@INTOPDF          = "R --file=@BIN/ACT/intopdf.R"
+@ACT              = "@PYTHON @BIN/ACT/ACT.py --radius=5000 --nbins=50 --mbins=50 --region"
+
+#RunCleaning Step
+@RUNCLEAN         = @PERL @SEQMAPPING/stepClean.pl
+
+
+

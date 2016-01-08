@@ -1,0 +1,9 @@
+#stepname	#command	#time interval
+stepFastQC	@FASTQCWRAPPER -c @RUNFASTQC -i @INPUT -o @OUTDIR -s stepFASTQC -j @JOB	0
+stepSplitFastQ	@SPLITFASTQ -p @SPLITFASTQPROG -i @INPUT -n 5000000 -o @INPUTFASTQDIR -s stepSplitFastQ -j @JOB 	10
+stepMapping	@RUNMAPPING @STEPMAPPARAM StepMapping @JOB	20
+stepMerge	@PERLMERGE -i @INPUT -c @RUNMERGEMAPPING -m @MAPPINGOUTDIR -f @FILE_EXT -o @OUTDIR -b bam -j @JOB -s stepMerge	10
+stepIGVTDF	@IGVWRAPPER -c @PERL -p @RUNIGVTDF -i @INPUT -o @OUTDIR -f @GENOMEFASTA -s @SAMTOOLS -n igvConverter -j @JOB	0 
+stepBam2BW	@RUNBAM2BW @OUTDIR @NAME @GENOMESIZE @OUTDIR/out.txt @USERNAME @VERSION	10
+stepMACS	@RUNMACS -a @MACSCMD -o @OUTDIR -m @MACSOUTDIR -s submitJobs -i @INPUT -j @JOB	10
+stepAggregation	@RUNAGGREGATION -o @OUTDIR -p @BIN -g @GENOMESIZE -r @REFACT -i @INPUT -s submitAgg -j @JOB	10

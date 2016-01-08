@@ -1,0 +1,3 @@
+#!/bin/sh
+#${0%/*}/bedtools genomecov "$@"
+/isilon_temp/garber/bin/bedtools/bedtools genomecov "$@"

@@ -1,0 +1,19 @@
+INFO [2014-04-02 18:51:49,109] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:49,109] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:49,441] [DirectoryManager.java:149]  IGV Directory: /home/gxy11w/igv
+INFO [2014-04-02 18:51:49,586] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:49,587] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:49,736] [GenomeManager.java:143]  Genome loaded.  id= /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:49,747] [DirectoryManager.java:149]  IGV Directory: /home/gxy11w/igv
+INFO [2014-04-02 18:51:49,748] [DirectoryManager.java:149]  IGV Directory: /home/gxy11w/igv
+INFO [2014-04-02 18:51:49,818] [GenomeManager.java:143]  Genome loaded.  id= /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:49,821] [GenomeManager.java:143]  Genome loaded.  id= /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:50,812] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:50,994] [DirectoryManager.java:149]  IGV Directory: /home/gxy11w/igv
+INFO [2014-04-02 18:51:51,060] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:51,071] [GenomeManager.java:143]  Genome loaded.  id= /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 18:51:51,169] [DirectoryManager.java:149]  IGV Directory: /home/gxy11w/igv
+INFO [2014-04-02 18:51:51,217] [GenomeManager.java:143]  Genome loaded.  id= /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 19:14:10,593] [GenomeManager.java:113]  Loading genome: /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa
+INFO [2014-04-02 19:14:11,260] [DirectoryManager.java:149]  IGV Directory: /home/gxy11w/igv
+INFO [2014-04-02 19:14:11,357] [GenomeManager.java:143]  Genome loaded.  id= /share/data/umw_biocore/genome_data/mousetest/mm10/mm10.fa

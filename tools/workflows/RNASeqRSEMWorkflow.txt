@@ -1,0 +1,11 @@
+#stepname	#command	#time interval
+stepFastQC	@PERL @RUNFASTQC -i @INPUT -o @OUTDIR -p @FASTQCPROG -s stepFastQC -j @JFASTQC	1
+stepMergeFastQC	@PERL @RUNFASTQCMERGE -o @OUTDIR	1
+stepRibo	@RUNRIBO -i @INPUT -o @OUTDIR -r @RIBOINDEX -b @BOWTIE2CMD -s stepRibo -j @JRIBO	1
+stepRSEM	@RUNRSEM -c @RSEMCMD -r @RSEMREF -p @PARAMSRSEM -o @OUTDIR -b @BOWTIEPATH -s stepRSEM -j @JRSEM	10 
+stepIGVTDF	@RUNIGVTDF -o @OUTDIR -g @GENOMEFASTA -sa @SAMTOOLS -i @IGVTOOLS -se stepIGVTDF -j @JIGVTDF	0
+stepRSEMCount	@RUNRSEMCOUNT -o @OUTDIR -s stepRSEMCount -j @JRSEMCOUNT	20
+stepRSEMRawCount	@RUNRSEMCOUNT -o @OUTDIR -t expected_count -s stepRSEMRawCount -j @JRSEMCOUNT	20
+stepRSEMCountIso	@RUNRSEMCOUNT -o @OUTDIR -s stepRSEMCountIso -g isoforms -j @JRSEMCOUNT	20
+stepRSEMRawCountIso	@RUNRSEMCOUNT -o @OUTDIR -t expected_count -g isoforms -s stepRSEMRawCountIso -j @JRSEMCOUNT	20
+stepBam2BW	@RUNBAM2BW -o @OUTDIR -g @GENOMESIZE -c @RUNCOVERAGE -w @WIGTOBIGWIG -p @OUTPUT -i @OUTPUTHTML -u @USERNAME -b @VERSION -s stepBam2BW -j @JBAM2BW	10

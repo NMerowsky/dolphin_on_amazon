@@ -1,0 +1,91 @@
+#General parameters
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python 
+@JAVA             = module load java/1.7.0_25; java
+@SAMTOOLS         = "module load  samtools/0.0.19; samtools"
+@BIN              = /project/umw_biocore/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@FASTX            = /project/umw_garberlab/bin/fastx_toolkit_0.0.13/bin
+@GENOMEDB         = /share/data/umw_biocore/genome_data/@GENOME/@VERSION
+@GCOMMONDB        = @GENOMEDB/commondb
+@JOB              = @PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR
+@JGEN             = "@JOB -p 1 -m 4096 -t 230 -q short"
+
+
+#StepCheck Input Files
+@RUNCHECK         = @PERL @TOOLSDIR/SeqMapping/stepCheck.pl
+
+#StepMapping
+@DEFBOWTIE2PARAM  = "-N 1"
+@DEFDESCRIPTION   = "multiple mappers upto 1 mismatch"
+@RUNRECMAPPING    = @PERL @TOOLSDIR/SeqMapping/stepMapping.pl
+@AWKDIR           = @TOOLSDIR/SeqMapping
+@BOWTIE2CMD       = @BIN/bowtie2-2.2.3/bowtie2
+@JMAPPING         = "@JOB -p 1 -m 4096 -t 230 -q short"
+
+#StepBarcode Separation
+@RUNBARCODE         = @PERL @TOOLSDIR/SeqMapping/stepBarcode.pl
+@PAIREDBSPLITTERCMD = "@JAVA -jar /project/umw_garberlab/bin/fqsplitter.jar"
+@SINGLEBSPLITTERCMD = "@PERL @FASTX/fastx_barcode_splitter.pl"
+
+#StepAdapter Remover
+@RUNADAPTER         = @PERL @TOOLSDIR/SeqMapping/stepAdapter.pl
+@ADAPTERREMOVERCMD  = "@JAVA -jar /project/umw_biocore/bin/Trimmomatic-0.32/trimmomatic-0.32.jar"
+@JADAPTER           = "@JOB -p 1 -m 8096 -t 230 -q short"
+
+#StepTrim 
+@RUNTRIM            = @PERL @TOOLSDIR/SeqMapping/stepTrimmer.pl
+@TRIMMERCMD         = @FASTX/fastx_trimmer
+
+#StepCounts
+@RUNCOUNTS          = @PERL @TOOLSDIR/SeqMapping/stepCounts.pl
+@MAKEBED            = "@PERL @TOOLSDIR/SeqMapping/makeBed.pl"
+@BEDTOOLSCMD        = "module load bedtools/2.17.0; bedtools multicov"
+
+#StepDESeq2
+@RUNDESEQ2          =  @PERL @TOOLSDIR/SeqMapping/stepDESeq2.pl
+@RSCRIPT            = "module load R/3.0.1; Rscript --no-save --no-restore --verbose"
+
+#StepMakeReport 
+@RUNMAKEREPORT      = @PERL @TOOLSDIR/SeqMapping/stepMakeReport.pl
+
+#StepFastQC
+@RUNFASTQC        = @TOOLSDIR/SeqMapping/stepFastQC.pl
+@FASTQCPROG       = "module load fastqc/0.10.1;fastqc" 
+@RUNFASTQCMERGE   = @TOOLSDIR/SeqMapping/stepAfterFastQC.pl
+@JFASTQC          = "@JOB -p 1 -m 1024 -t 60"
+
+#StepRSEM
+@RUNRSEM          = @PERL @TOOLSDIR/SeqMapping/stepRSEM.pl
+@RSEMCMD          = "@PERL @BIN/RSEM/rsem-calculate-expression"
+@BOWTIEPATH       = @BIN/bowtie-0.12.9
+@RSEMREF          = @GENOMEDB/rsem_ref
+@JRSEM          = "@JOB -p 4 -m 4096 -t 900 -q long"
+
+#StepRSEMCount
+@RUNRSEMCOUNT     = @PERL @TOOLSDIR/SeqMapping/stepRSEMcount.pl
+@JRSEMCOUNT     = "@JOB"
+
+#StepTophat2
+@RUNTOPHAT2       = @TOOLSDIR/SeqMapping/stepTophat2.pl
+@BOWTIE2INDEX     = @GENOMEDB/@VERSION
+@GTF              = @GENOMEDB/ucsc.gtf#Required
+@TOPHAT2CMD       = "module load samtools/0.0.19; module load bowtie2/2-2.1.0; module load tophat/2.0.9; tophat2"
+@JTOPHAT          = "@JOB -p 4 -m 4096 -t 900 -q long"
+
+#StepIGVTDF
+@RUNIGVTDF        = @PERL @TOOLSDIR/SeqMapping/stepIGVTDF.pl
+@GENOMEFASTA      = @GENOMEDB/@VERSION.fa #Required
+@IGVTOOLS         = @BIN/igvtools.sh
+@JIGVTDF          = "@JOB -p 4 -m 4096 -t 230"
+
+#Step Convert BW
+@GENOMESIZE       = @GENOMEDB/@VERSION.chrom.sizes
+@RUNBAM2BW        = @PERL @TOOLSDIR/SeqMapping/stepBAM2BW.pl
+@RUNCOVERAGE      = "@BIN/bedtools/bin/genomeCoverageBed" 
+@WIGTOBIGWIG      = @BIN/wigToBigWig
+@JBAM2BW          = "@JOB -p 1 -m 4096 -t 230"
+
+
+
+

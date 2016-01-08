@@ -1,0 +1,29 @@
+#General parameters
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python 
+@BIN              = /project/umw_biocore/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@CPU              = 8 
+@GENOMEDB         = /share/data/umw_biocore/genome_data/@GENOME/@VERSION
+@JOB              = "@PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR -p @CPU"
+
+@EXECDIR          = @TOOLSDIR/RNASeqSubSampler
+
+#StepSubSampler
+@RUNSUBSAMPLER    = @PERL @EXECDIR/stepSubSample.pl
+
+#StepRibo
+@RUNRIBO          = @PERL @EXECDIR/stepRibo.pl
+@RIBOINDEX        = @GENOMEDB/ribosomal_RNA #Required
+@BOWTIE2CMD       = @BIN/bowtie2-2.1.0/bowtie2
+
+#StepRSEM
+@RUNRSEM          = @PERL @EXECDIR/stepRSEM.pl
+@RSEMCMD          = "@PERL @BIN/RSEM/rsem-calculate-expression"
+@BOWTIEPATH       = @BIN/bowtie-0.12.9
+@RSEMREF          = @GENOMEDB/rsem_ref
+
+#StepRSEMCount
+@RUNRSEMCOUNT     = @PERL @EXECDIR/stepRSEMcount.pl
+
+

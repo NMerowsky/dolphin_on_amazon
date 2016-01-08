@@ -1,0 +1,5 @@
+@BIN         = /project/umw_biocore/bin/workflow/scripts/tools/Kraken
+@PYTHON      = module load python/2.7.5;python
+@PROGINIT    = @PYTHON @BIN/run_initialize_step.py
+@PROGIMP     = module load samtools/0.0.19;module load bowtie/1.0.0;@PYTHON @BIN/imp_commandline.py
+@ANNOTDIR    = /share/data/umw_biocore/genome_data/Annotation-12-164/

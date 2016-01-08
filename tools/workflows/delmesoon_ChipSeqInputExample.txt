@@ -1,0 +1,6 @@
+@GENOME=human
+@VERSION=hg19
+@DIR=/isilon_temp/garber/kucukura/test6
+@INPUT=@DIR/c2.fastq,@DIR/c2in.fastq:@DIR/c1.fastq,@DIR/c2in.fastq
+@INPUTF=@DIR/c1.fastq:@DIR/c2.fastq:@DIR/c2in.fastq
+

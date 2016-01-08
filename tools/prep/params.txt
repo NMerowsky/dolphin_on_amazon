@@ -1,0 +1,9 @@
+@INPUT       = /isilon_temp/garber/bin/workflow/scripts/tools/prep/test.fastq
+@OUTDIR      = /home/kucukura/scratch/RNASeq
+@NUMBER      = 3000
+
+#PROGS
+
+@RUNFASTQC   = /isilon_temp/garber/bin/workflow/scripts/tools/prep/runFastQC.bash
+@SPLITFASTQ  = /isilon_temp/garber/bin/workflow/scripts/tools/prep/splitFastq.pl
+

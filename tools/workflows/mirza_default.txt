@@ -1,0 +1,22 @@
+#General parameters
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python
+@BIN              = /project/umw_biocore/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@CPU              = 8
+@JOB              = "@PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR -p @CPU"
+#
+#Convert fa
+@RUNCONVERT  = @TOOLSDIR/mirza/convertMRNA.pl
+
+#stepSplit Fastq
+@NUMBER      = 10000
+@SPLITFASTQ  = @PERL @TOOLSDIR/prep/splitFastq.pl -n @NUMBER 
+
+#step Mirza
+@RUNMIRZA    = @PERL @TOOLSDIR/mirza/stepMirza.pl -d @TOOLSDIR/mirza/
+
+#Step Merge Mirza results
+@FILE_EXT         = html
+@RUNMERGERESULTS  = @TOOLSDIR/mirza/mergeResults.bash
+

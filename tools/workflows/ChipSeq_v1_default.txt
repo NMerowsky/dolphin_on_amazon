@@ -1,0 +1,76 @@
+#General
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@GENOMEDB         = @DATASETS/@GENOME/@VERSION
+@JOB              = python @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR
+@LDPATH           = module load gcc/4.8.1
+
+#stepFASTQC
+@RERUNPL   = perl @TOOLSDIR/CHIPSeq/rerun.pl
+@JRERUN    = "@JOB"
+
+
+#stepFASTQC
+@RUNFASTQC   = "module load fastqc/0.10.1;fastqc"
+@FASTQCWRAPPER   = perl @TOOLSDIR/CHIPSeq/fastqc_wrapper.pl
+@FASTQCUNITER = perl @TOOLSDIR/CHIPSeq/stepAfterFastQC.pl
+@JFASTQ        = "@JOB -p 1 -m 4024 -t 240 -q short"
+
+#stepSplit Fastq
+#@NUMBER          = 2000
+@SPLITFASTQ      = perl @TOOLSDIR/CHIPSeq/splitFastq_wrapper.pl
+@SPLITFASTQPROG  = "perl @TOOLSDIR/CHIPSeq/splitFastq.pl"
+
+#stepMapping
+@MAPPINGTYPE   = bowtie
+@MAPCOMMAND    = "module load bowtie/1.0.0;bowtie"
+@FORMATCOMMAND = "module load samtools/0.0.19;samtools"
+@RUNMAPPING    = perl @TOOLSDIR/CHIPSeq/mapping_wrapper.pl
+@MAPPINGPERL    = "perl @TOOLSDIR/CHIPSeq/mapping.pl"
+@GENINDEX      = @GENOMEDB/@VERSION
+@MAPPINGPARAMS = "-p 4 -v @BOWMISM -a --strata --best -m @MULTIMAP --sam -q" 
+@INPUTFASTQDIR = @OUTDIR/files
+@MAPPINGOUTDIR = @OUTDIR/mappings
+@STEPMAPPARAM  = -b @MAPPINGTYPE -p @MAPPINGPARAMS -i @INPUTFASTQDIR -o @MAPPINGOUTDIR -g @GENINDEX -m @MAPCOMMAND -f @FORMATCOMMAND
+@JMAPPING       = "@JOB -p 4 -m 4024 -t 240 -q short"
+
+#Step Merge Mapping
+@FILE_EXT         = sorted.bam
+@RUNMERGEMAPPING  = "perl @TOOLSDIR/CHIPSeq/mergeMapping.pl"
+@PERLMERGE        = perl @TOOLSDIR/CHIPSeq/mergeMapping_wrapper.pl
+@JMERGE         = "@JOB -p 1 -m 2024 -t 240 -q short"
+
+#StepIGVTDF
+@RUNIGVTDF        = "perl @TOOLSDIR/CHIPSeq/IGVTDF.pl"
+@GENOMEFASTA      = @GENOMEDB/@VERSION.fa
+@IGVWRAPPER       = perl @TOOLSDIR/CHIPSeq/igv_wrapper.pl
+@IGVTOOLS         = "module load igvtools/2.3.25;@BIN/igvtools.sh"
+@JIGVTDF        = "@JOB -p 1 -m 4096 -t 240 -q short"
+
+#Step Convert BW
+@GENOMESIZE       = @GENOMEDB/@VERSION.fa.fai
+@RUNBAM2BW        = "perl @TOOLSDIR/CHIPSeq/bam2wig.pl"
+@RUNBAM2BWWRAPPER = perl @TOOLSDIR/CHIPSeq/bam2bw_wrapper.pl
+@BTOOLSGENCOV    = "module load bedtools/2.17.0;genomeCoverageBed"
+@UCSCTOOLSWIG2BWIG    = "module load ucsc_cmdline_util/12_16_2013;wigToBigWig"
+@PUBLICFOLDER    = /home/@USERNAME/galaxy/pub
+@COREBROWSERUCSC = http://biocore.umassmed.edu/cgi-bin
+@HTTPPUBLICFOLDER = http://biocore.umassmed.edu/galaxy/@USERNAME/@NAME
+@JBAM2BW        = "@JOB -p 1 -m 4096 -t 240 -q short"
+
+#Step MACS
+@RUNMACS = perl @TOOLSDIR/CHIPSeq/macs14.pl
+@MACSOUTDIR = @OUTDIR/macsout
+@MACSmodule = module load macs/1.4.2
+@MACSCMD = "@MACSmodule;macs14 --tsize=@TSIZE --bw=@BWIDTH -g @GSIZE"
+@JMACS        = "@JOB -p 1 -m 16000 -t 240 -q short"
+
+#RunAggregation
+@RUNAGGREGATION  = @LDPATH;perl @TOOLSDIR/CHIPSeq/agg_plot_wrapper.pl
+@REFACT          = @GENOMEDB/refACT.tab
+@INTOPDF         = "module load R/3.0.1;R --file=@BIN/ACT/intopdf.R"
+@ACT             = @BIN/ACT/ACT.py
+@AGGPLOTPL	     = "perl @TOOLSDIR/CHIPSeq/agg_plot.pl"
+@JAGG        = "@JOB -p 1 -m 8192 -t 240 -q short"
+
+#RunCleaningUp
+@RUNDELETER      = perl @TOOLSDIR/CHIPSeq/rundeleter.pl

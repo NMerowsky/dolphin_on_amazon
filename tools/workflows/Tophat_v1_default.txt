@@ -1,0 +1,52 @@
+#General parameters
+@PERL             = module load perl/5.18.1; perl
+@PYTHON           = module load python/2.7.5; python
+@BIN              = /project/umw_biocore/bin
+@TOOLSDIR         = @BIN/workflow/scripts/tools
+@GENOMEDB         = /share/data/umw_biocore/genome_data/@GENOME/@VERSION
+@JOB              = @PYTHON @BIN/workflow/scripts/submitJobs.py -d @DBHOSTNAME -u @USERNAME -s @SERVICENAME -k @WKEY -o @OUTDIR 
+#StepFastQC
+@RUNFASTQC        = module load fastqc/0.10.1;@TOOLSDIR/Tophat/stepFastQC.pl
+@FASTQCPROG       = "module load fastqc/0.10.1;fastqc"
+@RUNFASTQCMERGE   = @TOOLSDIR/Tophat/stepAfterFastQC.pl
+@JFASTQ           = "@JOB -p 1 -m 2024 -t 240"
+
+#StepRibo
+@RUNRIBO          = @TOOLSDIR/Tophat/stepRibo.pl
+@RIBOINDEX        = @GENOMEDB/ribosomal_RNA #Required
+@BOWTIE2CMD       = "module load bowtie2/2-2.1.0;bowtie2"
+@JRIBO            = "@JOB -p 4 -m 2096 -t 240"
+
+#StepTophat2
+@RUNTOPHAT2       = @TOOLSDIR/Tophat/stepTophat2.pl
+@BOWTIE2INDEX     = @GENOMEDB/@VERSION
+@GTF              = @GENOMEDB/ucsc.gtf#Required
+@TOPHAT2CMD       = "module load samtools/0.0.19; module load bowtie2/2-2.1.0; module load tophat/2.0.9; tophat2"
+@JTOPHAT          = "@JOB -p 4 -m 4096 -t 900 -q long"
+
+#StepMerge
+@RUNSTEPMERGE     = @TOOLSDIR/Tophat/stepMerge.pl 
+@JMERGE           = "@JOB -p 1 -m 4096 -t 240"
+
+#StepIGVTDF
+@RUNIGVTDF        = @TOOLSDIR/Tophat/stepIGVTDF.pl
+@GENOMEFASTA      = @GENOMEDB/@VERSION.fa #Required
+@SAMTOOLS         = "module load samtools/0.0.19;samtools" 
+@IGVTOOLS         = @BIN/igvtools.sh
+@JIGVTDF          = "@JOB -p 1 -m 4096 -t 240"
+
+#Step Convert BW
+@GENOMESIZE       = @GENOMEDB/@VERSION.chrom.sizes
+@RUNBAM2BW        = perl @TOOLSDIR/Tophat/stepBAM2BW.pl
+@RUNCOVERAGE      = "module load bedtools/2.17.0;genomeCoverageBed"
+@WIGTOBIGWIG      = @BIN/wigToBigWig
+@JBAM2BW          = "@JOB -p 1 -m 4096 -t 240"
+
+#StepPicard
+@RUNPICARD        = @TOOLSDIR/Tophat/stepPicard.pl
+@PICARDCMD        = "@BIN/jre1.7.0_10/bin/java -Xmx1500m  -jar @BIN/tophap_cuffdiff/CollectRnaSeqMetrics.jar STRAND_SPECIFICITY=NONE MINIMUM_LENGTH=0 ASSUME_SORTED=false"
+@REFFLAT          = @GENOMEDB/ref_flat #Required
+@JPICARD          = "@JOB -p 1 -m 4096 -t 240"
+
+
+
